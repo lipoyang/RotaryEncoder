@@ -1,4 +1,4 @@
-# Rotary Encoder for GR-CITRUS
+# Rotary Encoder Library for GR-CITRUS
 
 [Japanese README (和文ドキュメント)](README-ja.md)
 
