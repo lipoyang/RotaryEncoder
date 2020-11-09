@@ -16,7 +16,7 @@ void HardwareEncoder::begin()
     switch(m_id){
     // TPU1 : pin 4(PC2/TCLKA) and 19(P15/TCLKB)
     case ID_Encoder1:
-        // (!!!) disable TPU1 interrupt! (TPU1 is used for MsTimer2)
+        // (!!!) disable TPU1 interrupt! (TPU1 is also used for MsTimer2)
         IEN(TPU1,TGI1A) = 0x0;
         IR (TPU1,TGI1A) = 0x0;
         // set pin function of PC2
@@ -37,7 +37,7 @@ void HardwareEncoder::begin()
         
     // TPU2 : pin 2(PC0/TCLKC) and  3(PC1/TCLKD)
     case ID_Encoder2:
-        // (!!!) disable TPU2 interrupt! (TPU2 is used for software PWM)
+        // (!!!) disable TPU2 interrupt! (TPU2 is also used for software PWM)
         IEN(TPU2, TGI2A) = 0x0;
         IR (TPU2, TGI2A) = 0x0;
         // set pin function of PC0
@@ -51,6 +51,7 @@ void HardwareEncoder::begin()
         // set TPU2
         MSTP(TPU2) = 0;             // awake TPU from module stop
         TPUA.TSTR.BIT.CST2 = 0;     // stop TPU2 count
+        TPU2.TCR.BYTE = 0x0;        // (!!!) TCNT clearing disabled (TPU2 is also used for software PWM)
         TPU2.TMDR.BIT.MD = 4;       // phase counting mode 1
         TPU2.TCNT = 0;              // clear count
         TPUA.TSTR.BIT.CST2 = 1;     // start TPU2 count
@@ -58,7 +59,7 @@ void HardwareEncoder::begin()
     
     // MTU1 : pin 11(PC6/MTCLKA) and 12(PC7/MTCLKB)
     case ID_Encoder3:
-        // (!!!) disable MTU1 interrupt! (MTU1 is used for WavMp3p)
+        // (!!!) disable MTU1 interrupt! (MTU1 is also used for WavMp3p)
         IEN(MTU1, TGIA1) = 0x0;
         IR (MTU1, TGIA1) = 0x0;
         // set pin function of PC6
